@@ -35,7 +35,7 @@ if [[ "$gpu" == "true" ]] ; then
   sudo-non-docker ubuntu-drivers autoinstall
 fi
 
-curl -sL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB | sudo-non-docker apt-key add -
+curl -sL https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | sudo-non-docker gpg --dearmor -o /etc/apt/trusted.gpg.d/intel-mkl.gpg
 echo "deb https://apt.repos.intel.com/mkl all main" | sudo-non-docker tee /etc/apt/sources.list.d/intel-mkl.list
 sudo-non-docker apt-get update
 sudo-non-docker apt-get install --upgrade -y \
@@ -90,6 +90,7 @@ echo "Install complete!"
 echo "Now, run build-dependencies.sh and add the following to your ~/.zshrc or ~/.bashrc:"
 echo "export PATH=\"$SERENADE_LIBRARY_ROOT/jdk-14.0.1/bin:$SERENADE_LIBRARY_ROOT/gradle-7.4.2/bin:\$PATH\""
 echo "export JAVA_HOME=\"$SERENADE_LIBRARY_ROOT/jdk-14.0.1\""
+echo "export PATH=\"$JAVA_HOME/bin:\$PATH\""
 
 # If we're not installing on docker, we need to restart.
 if [[ "$gpu" == "true" && "$EUID" != 0 ]] ; then
